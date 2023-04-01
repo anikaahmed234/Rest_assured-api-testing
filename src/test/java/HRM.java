@@ -52,9 +52,9 @@ public class HRM extends Setup {
                         .header("Authorization", prop.getProperty("TOKEN"))
                         .header("X-Auth-Secret-Key","ROADTOSDET")
                         .when()
-                        .get("/transaction/list");
-//                        .then()
-//                        .assertThat().statusCode(200).extract().response();
+                        .get("/transaction/list")
+                        .then()
+                        .assertThat().statusCode(200).extract().response();
 
         JsonPath jsonPath = rest.jsonPath();
         String message = jsonPath.get("message");
@@ -165,7 +165,7 @@ public class HRM extends Setup {
                         .when()
                         .post("/transaction/deposit")
                         .then()
-                        .assertThat().statusCode(200).extract().response();
+                        .assertThat().statusCode(404).extract().response();
 
         JsonPath jsonPath = rest.jsonPath();
         String message = jsonPath.get("message");

@@ -7,9 +7,7 @@ import java.util.Properties;
 
 public class Setup {
     public Properties prop;
-
     FileInputStream file;
-
     @Before
     public void initConfig() throws IOException {
     prop = new Properties();
