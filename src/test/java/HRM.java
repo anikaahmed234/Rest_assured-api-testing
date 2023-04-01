@@ -1,3 +1,4 @@
+import com.github.javafaker.Faker;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -7,6 +8,8 @@ import java.io.IOException;
 import static io.restassured.RestAssured.*;
 
 public class HRM extends Setup {
+    Faker faker = new Faker();
+    int id = faker.number().randomDigit();
 
     public HRM() throws IOException {
         initConfig();

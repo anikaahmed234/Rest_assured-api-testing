@@ -17,6 +17,7 @@ dependencies {
     // https://mvnrepository.com/artifact/commons-configuration/commons-configuration
     implementation group: 'commons-configuration', name: 'commons-configuration', version: '1.10'
     testImplementation 'junit:junit:4.13.1'
+    implementation 'com.github.javafaker:javafaker:1.0.2'
 
 }
 
