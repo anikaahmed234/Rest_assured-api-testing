@@ -6,12 +6,18 @@ This project demonstrates the use of REST Assured API and Selenium to perform va
 # Prerequisites:
 
 JDK 8 or later
+
 IntelliJ IDEA or any other Java IDE
+
 Selenium WebDriver
+
 REST Assured API
+
 TestNG
 
-# You can get the collection from here: https://documenter.getpostman.com/view/18384612/2s93JxqgMZ
+# You can get the collection from here:
+
+https://documenter.getpostman.com/view/18384612/2s93JxqgMZ
 
 # Test Cases:
 
