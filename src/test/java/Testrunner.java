@@ -45,7 +45,8 @@ public class Testrunner {
 //    }
     @Test
     public void depagent() throws IOException, ConfigurationException {
-        user.depagent("");
+        String agentPhoneNumber = user.createagent();
+        user.depagent(agentPhoneNumber);
         String expected = "Deposit successful";
         Assert.assertEquals("Strings should be equal", user.getMessage(), expected);
     }
