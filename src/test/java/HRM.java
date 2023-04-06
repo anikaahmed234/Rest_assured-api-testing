@@ -4,6 +4,7 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.apache.commons.configuration.ConfigurationException;
 import java.io.IOException;
+import java.util.Random;
 
 import static io.restassured.RestAssured.*;
 
@@ -90,12 +91,11 @@ public class HRM extends Setup {
         String customer_phone_number = jsonPath.get("user.phone_number");
         setMessage(message);
         return customer_phone_number;
+//        return id;
 
     }
     public String createagent() throws ConfigurationException {
         RestAssured.baseURI = prop.getProperty("BASE_URL");
-//        Random rand = new Random();
-//        int randomNumber = rand.nextInt(100) + 1;
         Response rest =
                 given()
                         .contentType("application/json")
@@ -120,25 +120,25 @@ public class HRM extends Setup {
         setMessage(message);
         return agent_phone_number;
     }
-    public void upnum(String id) throws ConfigurationException {
-        RestAssured.baseURI = prop.getProperty("BASE_URL");
-        Response rest =
-                given()
-                        .contentType("application/json")
-                        .header("Authorization", prop.getProperty("TOKEN"))
-                        .header("X-Auth-Secret-Key","ROADTOSDET")
-                        .body("{\n" +
-                                "    \"phone_number\":\"01608983654\"\n" +
-                                "}")
-                        .when()
-                        .patch("/user/update/" + id)
-                        .then()
-                        .assertThat().statusCode(200).extract().response();
-
-        JsonPath jsonPath = rest.jsonPath();
-        String message = jsonPath.get("message");
-        setMessage(message);
-    }
+//    public void upnum(String id) throws ConfigurationException {
+//        RestAssured.baseURI = prop.getProperty("BASE_URL");
+//        Response rest =
+//                given()
+//                        .contentType("application/json")
+//                        .header("Authorization", prop.getProperty("TOKEN"))
+//                        .header("X-Auth-Secret-Key","ROADTOSDET")
+//                        .body("{\n" +
+//                                "    \"phone_number\":\"01608983654\"\n" +
+//                                "}")
+//                        .when()
+//                        .patch("/user/update/" + id)
+//                        .then()
+//                        .assertThat().statusCode(200).extract().response();
+//
+//        JsonPath jsonPath = rest.jsonPath();
+//        String message = jsonPath.get("message");
+//        setMessage(message);
+//    }
     public void depagent(String agent_phone_number) throws ConfigurationException {
         RestAssured.baseURI = prop.getProperty("BASE_URL");
         Response rest =

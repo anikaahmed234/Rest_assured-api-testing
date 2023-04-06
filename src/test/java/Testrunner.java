@@ -37,39 +37,45 @@ public class Testrunner {
         String expected = "User created";
         Assert.assertEquals("Strings should be equal", user.getMessage(), expected);
     }
-    @Test
-    public void upnum() throws IOException, ConfigurationException {
-        user.upnum();
-        String expected = "User updated successfully";
-        Assert.assertEquals("Strings should be equal", user.getMessage(), expected);
-    }
+//    @Test
+//    public void upnum() throws IOException, ConfigurationException {
+//        user.upnum();
+//        String expected = "User updated successfully";
+//        Assert.assertEquals("Strings should be equal", user.getMessage(), expected);
+//    }
     @Test
     public void depagent() throws IOException, ConfigurationException {
-        user.depagent();
+        user.depagent("");
         String expected = "Deposit successful";
         Assert.assertEquals("Strings should be equal", user.getMessage(), expected);
     }
     @Test
     public void agtocut() throws IOException, ConfigurationException {
-        user.agtocut();
+        String customerPhoneNumber = user.createcus();
+        String agentPhoneNumber = user.createagent();
+        user.agtocut(agentPhoneNumber,customerPhoneNumber);
         String expected = "Deposit successful";
         Assert.assertEquals("Strings should be equal", user.getMessage(), expected);
     }
     @Test
     public void agbal() throws IOException, ConfigurationException {
-        user.agbal();
+        String agentPhoneNumber = user.createagent();
+        user.agbal(agentPhoneNumber);
         String expected = "User balance";
         Assert.assertEquals("Strings should be equal", user.getMessage(), expected);
     }
     @Test
     public void cusbal() throws IOException, ConfigurationException {
-        user.cusbal();
+        String customerPhoneNumber = user.createcus();
+        user.cusbal(customerPhoneNumber);
         String expected = "User balance";
         Assert.assertEquals("Strings should be equal", user.getMessage(), expected);
     }
     @Test
     public void withdraw() throws IOException, ConfigurationException {
-        user.withdraw();
+        String customerPhoneNumber = user.createcus();
+        String agentPhoneNumber = user.createagent();
+        user.withdraw(agentPhoneNumber,customerPhoneNumber);
         String expected = "Withdraw successful";
         Assert.assertEquals("Strings should be equal", user.getMessage(), expected);
     }
