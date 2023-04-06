@@ -6,6 +6,7 @@ import java.io.IOException;
 public class Testrunner {
 
     HRM user = new HRM();
+
     public Testrunner() throws IOException {
     }
 
