@@ -9,64 +9,64 @@ public class Testrunner {
     public Testrunner() throws IOException {
     }
 
-    @Test(priority = 1)
+    @Test
     public void login() throws IOException, ConfigurationException {
         user.loginapi("salman@roadtocareer.net", "1234");
         String expected = "Login successfully";
         String actual = user.getMessage();
         Assert.assertEquals("Strings should be equal", actual, expected);
     }
-    @Test(priority = 2)
+    @Test
     public void transactionlistapi() throws IOException, ConfigurationException {
         user.transactionlistapi();
         String expected = "Transaction list";
         String actual = user.getMessage();
         Assert.assertEquals("Strings should be equal", actual, expected);
     }
-    @Test(priority = 3)
+    @Test
     public void createcus() throws IOException, ConfigurationException {
         user.createcus();
         String expected = "User created";
         String actual = user.getMessage();
         Assert.assertEquals("Strings should be equal", actual, expected);
     }
-    @Test(priority = 4)
+    @Test
     public void createagent() throws IOException, ConfigurationException {
         user.createagent();
         String expected = "User created";
         Assert.assertEquals("Strings should be equal", user.getMessage(), expected);
     }
-    @Test(priority = 5)
+    @Test
     public void upnum() throws IOException, ConfigurationException {
         user.upnum();
         String expected = "User updated successfully";
         Assert.assertEquals("Strings should be equal", user.getMessage(), expected);
     }
-    @Test(priority = 8)
+    @Test
     public void depagent() throws IOException, ConfigurationException {
         user.depagent();
         String expected = "Deposit successful";
         Assert.assertEquals("Strings should be equal", user.getMessage(), expected);
     }
-    @Test(priority = 9)
+    @Test
     public void agtocut() throws IOException, ConfigurationException {
         user.agtocut();
         String expected = "Deposit successful";
         Assert.assertEquals("Strings should be equal", user.getMessage(), expected);
     }
-    @Test(priority = 6)
+    @Test
     public void agbal() throws IOException, ConfigurationException {
         user.agbal();
         String expected = "User balance";
         Assert.assertEquals("Strings should be equal", user.getMessage(), expected);
     }
-    @Test(priority = 7)
+    @Test
     public void cusbal() throws IOException, ConfigurationException {
         user.cusbal();
         String expected = "User balance";
         Assert.assertEquals("Strings should be equal", user.getMessage(), expected);
     }
-    @Test(priority = 10)
+    @Test
     public void withdraw() throws IOException, ConfigurationException {
         user.withdraw();
         String expected = "Withdraw successful";
