@@ -1,3 +1,4 @@
+import com.github.javafaker.Faker;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -22,6 +23,9 @@ public class HRM extends Setup {
 
     private String message;
 
+    Faker faker = new Faker();
+    int randomId = faker.number().numberBetween(1000, 9999);
+    int phoneNumber = faker.number().numberBetween(1000, 9999);
 
     public void loginapi(String username, String password) throws ConfigurationException {
         RestAssured.baseURI = prop.getProperty("BASE_URL");
@@ -60,7 +64,7 @@ public class HRM extends Setup {
         String message = jsonPath.get("message");
         setMessage(message);
     }
-    public void createcus() throws ConfigurationException {
+    public String createcus() throws ConfigurationException {
         RestAssured.baseURI = prop.getProperty("BASE_URL");
         Response rest =
                 given()
@@ -69,9 +73,9 @@ public class HRM extends Setup {
                         .header("X-Auth-Secret-Key","ROADTOSDET")
                         .body("{\n" +
                                 "    \"name\":\"Test Customer 1\",\n" +
-                                "    \"email\":\"user{{randomId}}@test.com\",\n" +
+                                "    \"email\":\"user" + randomId + "@test.com\",\n" +
                                 "    \"password\":\"1234\",\n" +
-                                "    \"phone_number\":\"{{phoneNumber}}\",\n" +
+                                "    \"phone_number\":\"01521"+ phoneNumber + "12\",\n" +
                                 "    \"nid\":\"123456789\",\n" +
                                 "    \"role\":\"Customer\"\n" +
                                 "}")
@@ -82,9 +86,13 @@ public class HRM extends Setup {
 
         JsonPath jsonPath = rest.jsonPath();
         String message = jsonPath.get("message");
+        String id = jsonPath.get("user.id");
+        String customer_phone_number = jsonPath.get("user.phone_number");
         setMessage(message);
+        return customer_phone_number;
+
     }
-    public void createagent() throws ConfigurationException {
+    public String createagent() throws ConfigurationException {
         RestAssured.baseURI = prop.getProperty("BASE_URL");
 //        Random rand = new Random();
 //        int randomNumber = rand.nextInt(100) + 1;
@@ -95,9 +103,9 @@ public class HRM extends Setup {
                         .header("X-Auth-Secret-Key","ROADTOSDET")
                         .body("{\n" +
                                 "    \"name\":\"Test Agent 1\",\n" +
-                                "    \"email\":\"agent{{randomNumber}}@test.com\",\n" +
+                                "    \"email\":\"agent"+ randomId + "@test.com\",\n" +
                                 "    \"password\":\"1234\",\n" +
-                                "    \"phone_number\":\"{{phoneNumber}}\",\n" +
+                                "    \"phone_number\":\"01821"+ phoneNumber + "22\",\n" +
                                 "    \"nid\":\"123456789\",\n" +
                                 "    \"role\":\"Agent\"\n" +
                                 "}")
@@ -108,9 +116,11 @@ public class HRM extends Setup {
 
         JsonPath jsonPath = rest.jsonPath();
         String message = jsonPath.get("message");
+        String agent_phone_number = jsonPath.get("user.phone_number");
         setMessage(message);
+        return agent_phone_number;
     }
-    public void upnum() throws ConfigurationException {
+    public void upnum(String id) throws ConfigurationException {
         RestAssured.baseURI = prop.getProperty("BASE_URL");
         Response rest =
                 given()
@@ -121,7 +131,7 @@ public class HRM extends Setup {
                                 "    \"phone_number\":\"01608983654\"\n" +
                                 "}")
                         .when()
-                        .patch("/user/update/{{id}}")
+                        .patch("/user/update/" + id)
                         .then()
                         .assertThat().statusCode(200).extract().response();
 
@@ -129,7 +139,7 @@ public class HRM extends Setup {
         String message = jsonPath.get("message");
         setMessage(message);
     }
-    public void depagent() throws ConfigurationException {
+    public void depagent(String agent_phone_number) throws ConfigurationException {
         RestAssured.baseURI = prop.getProperty("BASE_URL");
         Response rest =
                 given()
@@ -138,7 +148,7 @@ public class HRM extends Setup {
                         .header("X-Auth-Secret-Key","ROADTOSDET")
                         .body("{\n" +
                                 "    \"from_account\":\"SYSTEM\",\n" +
-                                "    \"to_account\":\"{{agent_phone_number}}\",\n" +
+                                "    \"to_account\":\"" + agent_phone_number + "\",\n" +
                                 "    \"amount\":2000\n" +
                                 "}")
                         .when()
@@ -150,7 +160,7 @@ public class HRM extends Setup {
         String message = jsonPath.get("message");
         setMessage(message);
     }
-    public void agtocut() throws ConfigurationException {
+    public void agtocut(String agent_phone_number, String customer_phone_number) throws ConfigurationException {
         RestAssured.baseURI = prop.getProperty("BASE_URL");
         Response rest =
                 given()
@@ -158,8 +168,8 @@ public class HRM extends Setup {
                         .header("Authorization", prop.getProperty("TOKEN"))
                         .header("X-Auth-Secret-Key","ROADTOSDET")
                         .body("{\n" +
-                                "    \"from_account\":\"{{agent_phone_number}}\",\n" +
-                                "    \"to_account\":\"{{customer_phone_number}}\",\n" +
+                                "    \"from_account\":\"" + agent_phone_number + "\",\n" +
+                                "    \"to_account\":\"" + customer_phone_number + "\",\n" +
                                 "    \"amount\":2000\n" +
                                 "}")
                         .when()
@@ -171,7 +181,7 @@ public class HRM extends Setup {
         String message = jsonPath.get("message");
         setMessage(message);
     }
-    public void agbal() throws ConfigurationException {
+    public void agbal(String agent_phone_number) throws ConfigurationException {
         RestAssured.baseURI = prop.getProperty("BASE_URL");
         Response rest =
                 given()
@@ -179,7 +189,7 @@ public class HRM extends Setup {
                         .header("Authorization", prop.getProperty("TOKEN"))
                         .header("X-Auth-Secret-Key","ROADTOSDET")
                         .when()
-                        .get("/transaction/balance/{{agent_phone_number}}")
+                        .get("/transaction/balance/" + agent_phone_number)
                         .then()
                         .assertThat().statusCode(200).extract().response();
 
@@ -187,7 +197,7 @@ public class HRM extends Setup {
         String message = jsonPath.get("message");
         setMessage(message);
     }
-    public void cusbal() throws ConfigurationException {
+    public void cusbal(String customer_phone_number) throws ConfigurationException {
         RestAssured.baseURI = prop.getProperty("BASE_URL");
         Response rest =
                 given()
@@ -195,7 +205,7 @@ public class HRM extends Setup {
                         .header("Authorization", prop.getProperty("TOKEN"))
                         .header("X-Auth-Secret-Key","ROADTOSDET")
                         .when()
-                        .get("transaction/balance/{{customer_phone_number}}")
+                        .get("transaction/balance/" + customer_phone_number)
                         .then()
                         .assertThat().statusCode(200).extract().response();
 
@@ -203,7 +213,7 @@ public class HRM extends Setup {
         String message = jsonPath.get("message");
         setMessage(message);
     }
-    public void withdraw() throws ConfigurationException {
+    public void withdraw(String agent_phone_number, String customer_phone_number) throws ConfigurationException {
         RestAssured.baseURI = prop.getProperty("BASE_URL");
         Response rest =
                 given()
@@ -211,8 +221,8 @@ public class HRM extends Setup {
                         .header("Authorization", prop.getProperty("TOKEN"))
                         .header("X-Auth-Secret-Key","ROADTOSDET")
                         .body("{\n" +
-                                "    \"from_account\":\"{{customer_phone_number}}\",\n" +
-                                "    \"to_account\":\"{{agent_phone_number}}\",\n" +
+                                "    \"from_account\":\"" + customer_phone_number + "\",\n" +
+                                "    \"to_account\":\"" + agent_phone_number + "\",\n" +
                                 "    \"amount\":500\n" +
                                 "}")
                         .when()
