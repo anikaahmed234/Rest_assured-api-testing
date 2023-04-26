@@ -24,9 +24,22 @@ public class HRM extends Setup {
 
     private String message;
 
+//    public String getId() {
+//        return id;
+//    }
+//
+//    public void setId(String Id) {
+//        this.id = id;
+//    }
+//
+//    private String id;
+
     Faker faker = new Faker();
     int randomId = faker.number().numberBetween(1000, 9999);
+    String randomIds = String.valueOf(randomId);
+
     int phoneNumber = faker.number().numberBetween(1000, 9999);
+    String phoneNumbers = String.valueOf(phoneNumber);
 
     public void loginapi(String username, String password) throws ConfigurationException {
         RestAssured.baseURI = prop.getProperty("BASE_URL");
@@ -73,10 +86,10 @@ public class HRM extends Setup {
                         .header("Authorization", prop.getProperty("TOKEN"))
                         .header("X-Auth-Secret-Key","ROADTOSDET")
                         .body("{\n" +
-                                "    \"name\":\"Test Customer 1\",\n" +
-                                "    \"email\":\"user" + randomId + "@test.com\",\n" +
+                                "    \"name\":\"Test Customer \",\n" +
+                                "    \"email\":\"customer"+ randomIds + "@test.com\",\n" +
                                 "    \"password\":\"1234\",\n" +
-                                "    \"phone_number\":\"01521"+ phoneNumber + "12\",\n" +
+                                "    \"phone_number\":\"01521"+ phoneNumbers + "12\",\n" +
                                 "    \"nid\":\"123456789\",\n" +
                                 "    \"role\":\"Customer\"\n" +
                                 "}")
@@ -87,11 +100,10 @@ public class HRM extends Setup {
 
         JsonPath jsonPath = rest.jsonPath();
         String message = jsonPath.get("message");
-        String id = jsonPath.get("user.id");
+//        String id = jsonPath.get("user.id");
         String customer_phone_number = jsonPath.get("user.phone_number");
         setMessage(message);
         return customer_phone_number;
-//        return id;
 
     }
     public String createagent() throws ConfigurationException {
@@ -102,11 +114,11 @@ public class HRM extends Setup {
                         .header("Authorization", prop.getProperty("TOKEN"))
                         .header("X-Auth-Secret-Key","ROADTOSDET")
                         .body("{\n" +
-                                "    \"name\":\"Test Agent 1\",\n" +
-                                "    \"email\":\"agent"+ randomId + "@test.com\",\n" +
+                                "    \"name\":\"Test Agent \",\n" +
+                                "    \"email\":\"agent"+ randomIds + "@test.com\",\n" +
                                 "    \"password\":\"1234\",\n" +
-                                "    \"phone_number\":\"01821"+ phoneNumber + "22\",\n" +
-                                "    \"nid\":\"123456789\",\n" +
+                                "    \"phone_number\":\"01821"+ phoneNumbers + "22\",\n" +
+                                "    \"nid\":\"663456789\",\n" +
                                 "    \"role\":\"Agent\"\n" +
                                 "}")
                         .when()
@@ -128,7 +140,7 @@ public class HRM extends Setup {
 //                        .header("Authorization", prop.getProperty("TOKEN"))
 //                        .header("X-Auth-Secret-Key","ROADTOSDET")
 //                        .body("{\n" +
-//                                "    \"phone_number\":\"01608983654\"\n" +
+//                                "    \"phone_number\":\"01321"+ phoneNumbers + "02\",\n" +
 //                                "}")
 //                        .when()
 //                        .patch("/user/update/" + id)
@@ -175,7 +187,7 @@ public class HRM extends Setup {
                         .when()
                         .post("/transaction/deposit")
                         .then()
-                        .assertThat().statusCode(404).extract().response();
+                        .assertThat().statusCode(201).extract().response();
 
         JsonPath jsonPath = rest.jsonPath();
         String message = jsonPath.get("message");
@@ -228,7 +240,7 @@ public class HRM extends Setup {
                         .when()
                         .post("/transaction/withdraw")
                         .then()
-                        .assertThat().statusCode(200).extract().response();
+                        .assertThat().statusCode(201).extract().response();
 
         JsonPath jsonPath = rest.jsonPath();
         String message = jsonPath.get("message");
